@@ -34,6 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
+    - name: Download Minecarft2 game
+      run: |
+        git clone --depth 1 https://github.com/VoxeLibre/VoxeLibre.git Minecarft2-game
+        sed -i 's/^title = .*/title = Minecarft2/' Minecarft2-game/game.conf
+
     - name: Install deps
       run: |
         sudo apt-get update
@@ -43,6 +48,12 @@ jobs:
       with:
           distribution: 'temurin'
           java-version: '17'
+    - name: Verify Minecarft2 game files
+      run: |
+        test -f Minecarft2-game/game.conf
+        test -d Minecarft2-game/mods
+        echo "Minecarft2 game files found"
+
     - name: Build AAB with Gradle
       # We build an AAB as well for uploading to the the Play Store.
       run: cd android; ./gradlew bundlerelease

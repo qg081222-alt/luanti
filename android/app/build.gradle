@@ -109,7 +109,17 @@ tasks.register("prepareAssets") {
 			from "${localeFolder}" into "${assetsFolder}/locale"
 		}
 
-		file("${assetsFolder}/.nomedia").text = ""
+		
+                // Minecarft2: include VoxeLibre game files
+                copy {
+                    from "${rootDir.parentFile}/Minecarft2-game"
+                    into "${assetsFolder}/games/Minecarft2"
+                    exclude ".git/**"
+                    exclude ".gitea/**"
+                    exclude ".forgejo/**"
+                }
+
+                file("${assetsFolder}/.nomedia").text = ""
 	}
 }
 
